@@ -16,7 +16,7 @@ const markup = galleryItems.map(
 
 gallery.insertAdjacentHTML("beforeend", markup.join(""));
 
-let lightbox;
+const lightbox = new SimpleLightbox(".gallery a", options);
 
 gallery.addEventListener("click", (evt) => {
   evt.preventDefault();
@@ -26,23 +26,7 @@ gallery.addEventListener("click", (evt) => {
     const index = galleryItems.findIndex(
       (item) => item.original === target.parentElement.href
     );
-
-    if (!lightbox) {
-      lightbox = new SimpleLightbox(".gallery a", options);
-    }
-
     lightbox.open(index);
   }
 });
 
-document.addEventListener("keydown", onKeyPress);
-
-function onKeyPress(evt) {
-  if (evt.key === "ArrowLeft" && lightbox) {
-    lightbox.prev();
-  } else if (evt.key === "ArrowRight" && lightbox) {
-    lightbox.next();
-  } else if (evt.key === "Escape" && lightbox) {
-    lightbox.close();
-  }
-}

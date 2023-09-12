@@ -15,6 +15,8 @@ const markup = galleryItems.map(
 gallery.insertAdjacentHTML("beforeend", markup.join(""));
 gallery.addEventListener("click", onClick);
 
+let instance;
+
 function onClick(evt) {
   evt.preventDefault();
 
@@ -24,7 +26,7 @@ function onClick(evt) {
   }
 
   const url = evt.target.dataset.source;
-  const instance = basicLightbox.create(
+ instance = basicLightbox.create(
     `<div class="modal is-open"><img width="1280px" height="854px" src="${url}"/></div>`,
     options
   );
@@ -38,7 +40,8 @@ function onCloseModal(evt) {
   if (evt.key === "Escape") {
     const openModal = document.querySelector(".modal.is-open");
     if (openModal) {
-      openModal.parentElement.remove();
+      instance.close();
+
     }
   }
 }
