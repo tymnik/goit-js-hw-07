@@ -16,17 +16,4 @@ const markup = galleryItems.map(
 
 gallery.insertAdjacentHTML("beforeend", markup.join(""));
 
-const lightbox = new SimpleLightbox(".gallery a", options);
-
-gallery.addEventListener("click", (evt) => {
-  evt.preventDefault();
-
-  const { target } = evt;
-  if (target.classList.contains("gallery__image")) {
-    const index = galleryItems.findIndex(
-      (item) => item.original === target.parentElement.href
-    );
-    lightbox.open(index);
-  }
-});
-
+new SimpleLightbox(".gallery a", options);
