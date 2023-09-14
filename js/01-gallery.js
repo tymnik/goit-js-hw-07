@@ -2,8 +2,6 @@ import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 const gallery = document.querySelector(".gallery");
 
-const options = {};
-
 const markup = galleryItems.map(
   ({ preview, original, description }) => `<li class="gallery__item">
     <a class="gallery__link" href="${original}">
@@ -15,8 +13,6 @@ const markup = galleryItems.map(
 gallery.insertAdjacentHTML("beforeend", markup.join(""));
 gallery.addEventListener("click", onClick);
 
-let instance;
-
 function onClick(evt) {
   evt.preventDefault();
 
@@ -26,22 +22,26 @@ function onClick(evt) {
   }
 
   const url = evt.target.dataset.source;
- instance = basicLightbox.create(
+
+  const instance = basicLightbox.create(
     `<div class="modal is-open"><img width="1280px" height="854px" src="${url}"/></div>`,
-    options
+    {
+      onShow: () => {
+        window.addEventListener("keydown", onCloseModal);
+      },
+      onClose: () => {
+        window.removeEventListener("keydown", onCloseModal);
+      },
+    }
   );
-
   instance.show();
-}
 
-document.addEventListener("keydown", onCloseModal);
-
-function onCloseModal(evt) {
-  if (evt.key === "Escape") {
-    const openModal = document.querySelector(".modal.is-open");
-    if (openModal) {
-      instance.close();
-
+  function onCloseModal(evt) {
+    if (evt.key === "Escape") {
+      const openModal = document.querySelector(".modal.is-open");
+      if (openModal) {
+        instance.close();
+      }
     }
   }
 }
